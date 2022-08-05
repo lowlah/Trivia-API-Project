@@ -159,19 +159,20 @@ def create_app(test_config=None):
         body = request.get_json()
         # if no question,reply,category,difficulty score,  throw an error    
         if not ('question' in body and 'answer' in body and 'difficulty' in body and 'category' in body):
-            abort(404)
+            abort(400)
 
         new_question = body.get('question')
         new_answer = body.get('answer')
         new_difficulty = body.get('difficulty')
         new_category = body.get('category')
 
+        '''
         # ensures no field is left empty
         if ((new_question is None) or (new_answer is None) or
                 (new_difficulty is None) or (new_category is None)):
-            flash("Fill all fields")
+            flash("Please fill all fields !!!!!")
             abort(400)
-
+        '''
         try:
             question = Question(question=new_question, answer=new_answer,difficulty=new_difficulty,category=new_category)
             question.insert()
@@ -225,7 +226,7 @@ def create_app(test_config=None):
             })
         # if a problem occurs throw this error    
         except:
-            abort(422)
+            abort(404)
 
     """
     Create a GET endpoint to get questions based on category.
@@ -255,7 +256,7 @@ def create_app(test_config=None):
             })
         # if a problem occurs give an error    
         except:
-            abort(400)
+            abort(404)
 
     """
 
@@ -269,7 +270,7 @@ def create_app(test_config=None):
     and shown whether they were correct or not.
     """
     # ------------------------------------------------------------
-    # POST endpoint displays questions used in playing the quiz.It takes 
+    # endpoint displays questions used in playing the quiz.It takes 
     # category and previous question parameters and returns random
     # random questions within the given category
     # ------------------------------------------------------------
