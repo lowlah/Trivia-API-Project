@@ -1,5 +1,6 @@
 .App-header {
-  background-color: #222;
+  /*background-color: #222;*/
+  background-color: #1B1212;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -11,6 +12,14 @@
 
 .App-header > h1 {
   color: dodgerblue;
+  
+}
+
+.App-header h2:hover{
+  
+  color: dodgerblue;
+  cursor: pointer;
+
 }
 
 .App-intro {
@@ -37,3 +46,5 @@ form {
   width: 80%;
   margin: auto;
 }
+
+
