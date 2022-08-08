@@ -129,54 +129,37 @@ def create_app(test_config=None):
     # -------------------------------
 
     @app.route('/questions', methods=['POST'])
-    def new_question():
+    def create_question():
         body = request.get_json()
-        # if no question,reply,category,difficulty score,  throw an error    
-        if not ('question' in body or 'answer' in body or 'difficulty' in body or 'category' in body):
+
+        question = body.get('question', '')
+        answer = body.get('answer', '')
+        difficulty = body.get('difficulty', '')
+        category = body.get('category', '')
+
+        # ensures no field is empty
+        if ((question == '') or (answer == '') or (difficulty == '') or (category == '')):
             abort(400)
 
-        new_question = body.get('question')
-        new_answer = body.get('answer')
-        new_difficulty = body.get('difficulty')
-        new_category = body.get('category')
-
-        '''
-        # ensures no field is left empty
-        if ((new_question is None) or (new_answer is None) or
-                (new_difficulty is None) or (new_category is None)):
-            flash("Please fill all fields !!!!!")
-            abort(400)
-        '''
         try:
-            question = Question(question=new_question, answer=new_answer,difficulty=new_difficulty,category=new_category)
+            question = Question(question=question,answer=answer,difficulty=difficulty,category=category)
             question.insert()
 
             selection = Question.query.order_by(Question.id).all()
             current_questions = paginate(request, selection)
 
-            return jsonify(
-                {
-                    'success': True,
-                    'created': question.id,
-                    'question_created': question.question,
-                    'questions': current_questions,
-                    'total_questions': Question.query.count()
-                }
-            )
-        # if a problem occurs posting a new question return this error    
-        except:
-            abort(422)
+            return jsonify({
+                'success': True,
+                'created': question.id,
+                'question_created': question.question,
+                'questions': current_questions,
+                'total_questions': Question.query.count()
+            })
+        
+        # if a problem occurs 
+        except: 
+            abort(422)       
 
-
-    """
-    Create a POST endpoint to get questions based on a search term.
-    It should return any questions for whom the search term
-    is a substring of the question.
-
-    TEST: Search by any phrase. The questions list will update to include
-    only question that include that string within their question.
-    Try using the word "title" to start.
-    """
     # ------------------------------------------------
     # POST endpoint gets question based on search term 
     # ------------------------------------------------
@@ -202,13 +185,6 @@ def create_app(test_config=None):
         except:
             abort(404)
 
-    """
-    Create a GET endpoint to get questions based on category.
-
-    TEST: In the "List" tab / main screen, clicking on one of the
-    categories in the left column will cause only questions of that
-    category to be shown.
-    """
     #--------------------------------------------------
     # endpoint shows questions based on chosen category
     # --------------------------------------------------
@@ -232,17 +208,6 @@ def create_app(test_config=None):
         except:
             abort(404)
 
-    """
-
-    Create a POST endpoint to get questions to play the quiz.
-    This endpoint should take category and previous question parameters
-    and return a random questions within the given category,
-    if provided, and that is not one of the previous questions.
-
-    TEST: In the "Play" tab, after a user selects "All" or a category,
-    one question at a time is displayed, the user is allowed to answer
-    and shown whether they were correct or not.
-    """
     # ------------------------------------------------------------
     # endpoint displays questions used in playing the quiz.It takes 
     # category and previous question parameters and returns random
