@@ -32,7 +32,6 @@ def create_app(test_config=None):
     #---------------------------------------------------------------------------------------------------
     CORS(app, resources={'/': {'origins': '*'}})
     
-    
     # CORS Headers: after_request decorator sets Access-Control-Allow
     @app.after_request
     def after_request(response):
@@ -65,22 +64,16 @@ def create_app(test_config=None):
         )    
 
     #@cross_origin sample route
-    @app.route('/')
-    def hello_world():
-        return jsonify({'message':'HELLO, WORLD!'}) 
+    #@app.route('/')
+    #def hello_world():
+    #    return jsonify({'message':'HELLO, WORLD!'}) 
 
-    """
-    
-    Create an endpoint to handle GET requests for questions,
-    including pagination (every 10 questions).
-    This endpoint should return a list of questions,
-    number of total questions, current category, categories.
+    # -------------------------------------------------------
+    # endpoint handles get requests for questions and paginates
+    # returning a list of questions,total number of questions, 
+    # current category and all categories 
+    # --------------------------------------------------------
 
-    TEST: At this point, when you start the application
-    you should see questions and categories generated,
-    ten questions per page and pagination at the bottom of the screen for three pages.
-    Clicking on the page numbers should update the questions.
-    """
 
     @app.route('/questions')
     def get_questions():
@@ -104,15 +97,6 @@ def create_app(test_config=None):
             'categories': result
         })
 
-
-
-    """
-    
-    Create an endpoint to DELETE question using a question ID.
-
-    TEST: When you click the trash icon next to a question, the question will be removed.
-    This removal will persist in the database and when you refresh the page.
-    """
     # ---------------------------------------------
     # endpoint deletes question using a question ID
     # ---------------------------------------------
@@ -133,7 +117,6 @@ def create_app(test_config=None):
                 {
                     'success': True,
                     'deleted': question_id,
-                    'questions': current_questions,
                     'total_questions': Question.query.count()
                 }
             )
@@ -141,15 +124,6 @@ def create_app(test_config=None):
         except:
             abort(422)
 
-    """
-    Create an endpoint to POST a new question,
-    which will require the question and answer text,
-    category, and difficulty score.
-
-    TEST: When you submit a question on the "Add" tab,
-    the form will clear and the question will appear at the end of the last page
-    of the questions list in the "List" tab.
-    """
     # -------------------------------
     # endpoint creates a new question
     # -------------------------------
@@ -158,7 +132,7 @@ def create_app(test_config=None):
     def new_question():
         body = request.get_json()
         # if no question,reply,category,difficulty score,  throw an error    
-        if not ('question' in body and 'answer' in body and 'difficulty' in body and 'category' in body):
+        if not ('question' in body or 'answer' in body or 'difficulty' in body or 'category' in body):
             abort(400)
 
         new_question = body.get('question')
