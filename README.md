@@ -1,4 +1,4 @@
-# Trivia App API Development and Documentation Final Project
+# Trivia App API Development and Documentation 
 
 This  project is a project for Udacity's full stack nanodegree program.It tests my skills on API Development and Documentation. I have been able to apply the skills  to structure and implement  API endpoints,testing the endpoints using unittest while also maintaining  API development best practices.
 
@@ -16,7 +16,7 @@ The application does the following :
 4. Search for questions based on a text query string.
 5. Play the quiz game, randomizing either all questions or within a specific category.
 
-## GETTING Started
+## Getting Started
 
 ### Pre-requisites and Local Development 
 Developers using this project should already have Python3, pip and node installed on their local machines.
@@ -54,7 +54,7 @@ By default, the frontend will run on localhost:3000.
 ### Tests
 In order to run tests navigate to the backend folder and run the following commands: 
 
-***For window users,replace dropdb with "DROP DATABASE" and createdb with " CREATE DATABASE" ***
+***For window users,replace dropdb with "DROP DATABASE" and createdb with " CREATE DATABASE"***
 ```
 dropdb bookshelf_test
 createdb bookshelf_test
@@ -93,7 +93,7 @@ The API will return these error types when requests fail:
 
 ### Endpoints 
 
-#### GET '/categories'
+#### GET `/categories`
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
 - Returns: An object with a single key, categories, that contains an object of id: category_string key:value pairs.
@@ -110,7 +110,7 @@ The API will return these error types when requests fail:
 }
 ```
 
-#### GET '/categories/<int:id>/questions'
+#### GET `/categories/<int:id>/questions`
 - Gets all questions in a specified category by id ,returns success values and total questions
 - Returns a JSON object with results paginated in 10: questions are from a specified category
 - Sample: `curl http://127.0.0.1:5000/categories/3/questions`
@@ -146,7 +146,7 @@ The API will return these error types when requests fail:
 }
 ```
 
-#### GET '/questions'
+#### GET `/questions`
 - Returns a list of question objects,success values paginated in groups of 10
   - Includes a list of all categories  
 - Sample: `curl http://127.0.0.1:5000/questions`
@@ -239,7 +239,7 @@ The API will return these error types when requests fail:
 }
 ```
 
-#### GET '/questions?page=${integer}'
+#### GET `/questions?page=${integer}`
 - Fetches a paginated set of questions, a total number of questions, all categories and current category string.
 - Request Arguments: `page` - integer
 - Returns: An object with 10 paginated questions, total questions, object including all categories, and current category string
@@ -277,7 +277,7 @@ The API will return these error types when requests fail:
 }
 ```
 
-#### POST '/questions'
+#### POST `/questions`
 - Creates a new question using the submitted question, answer,difficulty and category. Returns the id of the created question,question created, success value, total questions and  a randomized question list based on category.
 - Sample: `curl http://127.0.0.1:5000/questions -X POST -H "Content-Type: application/json" -d '{"question": "What is the capital of canada?", "answer": "ottawa", "difficulty": 1, "category": "3" }'`
 
@@ -363,7 +363,7 @@ The API will return these error types when requests fail:
 
 ```
 
-#### POST '/questions/search'
+#### POST `/questions/search`
 - Searches for questions using a search term, 
 - Returns a JSON object with paginated questions matching the search term
 - Sample: `curl http://127.0.0.1:5000/questions/search -X POST -H "Content-Type: application/json" -d '{"searchTerm": "city"}'`
@@ -385,7 +385,7 @@ The API will return these error types when requests fail:
 }
 ```
 
-#### DELETE '/questions/<int:id>'
+#### DELETE `/questions/<int:id>`
 - Deletes a question by id if it exists
 - Returns id of deleted questions ,success value,total questions if successful
 - Sample: `curl http://127.0.0.1:5000/questions/27 -X DELETE`
@@ -398,7 +398,7 @@ The API will return these error types when requests fail:
 }
 ```
 
-#### POST '/quizzes'
+#### POST `/quizzes`
 - Returns a random quiz question based on previous questions and  category parameters
 - Sample: `curl http://127.0.0.1:5000/quizzes -X POST -H "Content-Type: application/json" -d '{"previous_questions": [], "quiz_category": {"type": "Geography", "id": "3"}}'`
 
