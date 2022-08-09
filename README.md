@@ -418,7 +418,7 @@ The API will return these error types when requests fail:
 
 ## Authors
 The todos for the project as instructed by Udacity were completed by **Omolola Oladeinde** 
-All other project files, including the models and frontend, were created by Udacity as a project template for the Full Stack Web Developer Nanodegree.
+All other project files were created by Udacity for the Full Stack Web Developer Nanodegree.
 
 ## Acknowledgements 
-The awesome team at Udacity! 
+Udacity for the opportunity! 

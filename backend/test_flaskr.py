@@ -33,11 +33,6 @@ class TriviaTestCase(unittest.TestCase):
          "difficulty": 1,
          "category": 5}    
 
-        self.request_data = {
-            "question": '',
-            "answer": '',
-            "difficulty": 1,
-            "category": 5} 
     
     def tearDown(self):
         """Executed after reach test"""
@@ -96,7 +91,7 @@ class TriviaTestCase(unittest.TestCase):
         
                             )                   
         question.insert()
-        # id of new question
+        # id of the new question
         new_id = question.id
 
         res = self.client().delete(f'/questions/{new_id}')
@@ -151,7 +146,6 @@ class TriviaTestCase(unittest.TestCase):
     
     # returns error if no search result
     def test_404_search_questions(self):
-        """test for no search results 404"""
         response = self.client().post('/questions/search', json={ 'searchTerm': ''})
         data = json.loads(response.data)
 
@@ -180,14 +174,13 @@ class TriviaTestCase(unittest.TestCase):
 
     # test: success if parameters present
     def test_play_quiz_1(self):
-        """Tests out the quiz playing functionality"""
         res = self.client().post('/quizzes', json={"previous_questions": [], "quiz_category": {"type": "Geography", "id": "3"}})
         data = json.loads(res.data)
         
         self.assertEqual(res.status_code, 200)
-        self.assertEqual(data['success'], True)                 # check success
-        self.assertIsNotNone(data['question'])                  # check question is not blank
-        self.assertEqual(data['question']['category'], 3)       # checks correct category
+        self.assertEqual(data['success'], True)         
+        self.assertIsNotNone(data['question'])               
+        self.assertEqual(data['question']['category'], 3)       
     
     # test: error if category is missing
     def test_422_get_quiz(self):
@@ -198,7 +191,6 @@ class TriviaTestCase(unittest.TestCase):
         self.assertEqual(data['success'], False)
             
         
-
 # Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()

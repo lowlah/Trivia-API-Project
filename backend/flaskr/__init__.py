@@ -222,13 +222,16 @@ def create_app(test_config=None):
             body = request.get_json()
             category = body.get('quiz_category')
             previous_questions = body.get('previous_questions')
-            
-            if category['type'] == 'click':
-                questions = Question.query.filter(Question.id.notin_((previous_questions))).all()           
-            else:
-                questions = Question.query.filter_by(category=category['id']).filter(Question.id.notin_((previous_questions))).all()
+            category_id = category['id']
 
-                generate_question = questions[random.randrange(0, len(questions))].format() if len(questions) > 0 else None
+            if category_id == 0:   
+                current_questions = Question.query.filter(Question.id.notin_(previous_questions)).all()
+            else:
+                current_questions = Question.query.filter(Question.id.notin_(previous_questions),
+                    Question.category == category_id).all()
+
+            generate_question = current_questions[random.randrange(
+                0, len(current_questions))].format() if len(current_questions) > 0 else None
 
             return jsonify({
                 'success': True,
@@ -236,7 +239,8 @@ def create_app(test_config=None):
             })
         except:
             abort(422)
-    
+
+
     # ----------------------------------
     # Error handlers for expected errors
     # ----------------------------------
@@ -254,7 +258,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': False,
             'Error': 404,
-            'message': 'Resource Not Found'
+            'message': 'resource not found'
         }), 404
     
 
@@ -264,7 +268,7 @@ def create_app(test_config=None):
         return jsonify({
             'success': False,
             'Error': 422,
-            'message': 'Unable to process request'
+            'message': 'unprocessable'
         }), 422
 
     @app.errorhandler(405)
@@ -276,11 +280,11 @@ def create_app(test_config=None):
         }), 405
 
     @app.errorhandler(500)
-    def not_allowed(error):
+    def internal_err(error):
         return jsonify({
             'success': False,
             'error': 500,
-            'message': 'Internal server error'
+            'message': 'internal server error'
         }), 500  
 
     return app
