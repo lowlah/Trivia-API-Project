@@ -412,7 +412,6 @@ The API will return these error types when requests fail:
   },
   "success": true
 }
-
 ```
 
 ## Deployment N/A

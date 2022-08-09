@@ -213,25 +213,22 @@ def create_app(test_config=None):
     # category and previous question parameters and returns random
     # random questions within the given category
     # ------------------------------------------------------------
-
+    
     @app.route('/quizzes', methods=['POST'])
     def play_quiz():
+        #if all categories is chosen it generates random questions
+        #otherwise it generates questions based on a chosen category
         try:
             body = request.get_json()
             category = body.get('quiz_category')
             previous_questions = body.get('previous_questions')
-
-            # If 'ALL' categories is selected,filter questions
+            
             if category['type'] == 'click':
-                questions = Question.query.filter(Question.id.notin_((previous_questions))).all()
-                    
-            # filter questions based on category selected
+                questions = Question.query.filter(Question.id.notin_((previous_questions))).all()           
             else:
                 questions = Question.query.filter_by(category=category['id']).filter(Question.id.notin_((previous_questions))).all()
 
-            # randomly generate questions
-            generate_question = questions[random.randrange(
-                0, len(questions))].format() if len(questions) > 0 else None
+                generate_question = questions[random.randrange(0, len(questions))].format() if len(questions) > 0 else None
 
             return jsonify({
                 'success': True,
@@ -259,9 +256,11 @@ def create_app(test_config=None):
             'Error': 404,
             'message': 'Resource Not Found'
         }), 404
+    
 
+    # used class example as a guide
     @app.errorhandler(422)
-    def uprocessable(error):
+    def not_processable(error):
         return jsonify({
             'success': False,
             'Error': 422,
