@@ -1,0 +1,38 @@
+warning: LF will be replaced by CRLF in backend/flaskr/__init__.py.
+The file will have its original line endings in your working directory
+[1mdiff --git a/backend/flaskr/__init__.py b/backend/flaskr/__init__.py[m
+[1mindex 747ec45..07a8573 100644[m
+[1m--- a/backend/flaskr/__init__.py[m
+[1m+++ b/backend/flaskr/__init__.py[m
+[36m@@ -104,15 +104,13 @@[m [mdef create_app(test_config=None):[m
+     @app.route('/questions/<int:question_id>', methods=['DELETE'])[m
+     def delete_question(question_id):[m
+         try:[m
+[31m-            #check question exists else return error 404[m
+[32m+[m[32m            #checks question exists[m[41m [m
+             question = Question.query.filter(Question.id == question_id).one_or_none()[m
+             if question is None:[m
+                 abort(404)[m
+ [m
+[31m-            # deletes and paginates[m
+             question.delete()[m
+[31m-            selection = Question.query.order_by(Question.id).all()[m
+[31m-            current_questions = paginate(request, selection)[m
+[32m+[m[41m        [m
+             return jsonify([m
+                 {[m
+                     'success': True,[m
+[36m@@ -229,10 +227,9 @@[m [mdef create_app(test_config=None):[m
+             else:[m
+                 current_questions = Question.query.filter(Question.id.notin_(previous_questions),[m
+                     Question.category == category_id).all()[m
+[31m-[m
+[31m-            generate_question = current_questions[random.randrange([m
+[31m-                0, len(current_questions))].format() if len(current_questions) > 0 else None[m
+[31m-[m
+[32m+[m[41m            [m
+[32m+[m[32m            generate_question = random.choice(current_questions).format() if len(current_questions) > 0 else None[m
+[32m+[m[41m             [m
+             return jsonify({[m
+                 'success': True,[m
+                 'question': generate_question[m

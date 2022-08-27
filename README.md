@@ -418,7 +418,7 @@ The API will return these error types when requests fail:
 
 ## Authors
 The todos for the project as instructed by Udacity were completed by **Omolola Oladeinde** 
-All other project files were created by Udacity for the Full Stack Web Developer Nanodegree.
+All other project files were created by Udacity for the Full Stack Web Developer Nanodegree. Also some methods for endpoints used may seem similar , based on my understanding in the examples in class,I followed the same principles. 
 
 ## Acknowledgements 
-Udacity for the opportunity! 
+Udacity for the opportunity! ALX slack channel(students and session Leads) for all the help and suggestions.

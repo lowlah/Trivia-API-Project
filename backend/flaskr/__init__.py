@@ -104,15 +104,13 @@ def create_app(test_config=None):
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
         try:
-            #check question exists else return error 404
+            #checks question exists 
             question = Question.query.filter(Question.id == question_id).one_or_none()
             if question is None:
                 abort(404)
 
-            # deletes and paginates
             question.delete()
-            selection = Question.query.order_by(Question.id).all()
-            current_questions = paginate(request, selection)
+        
             return jsonify(
                 {
                     'success': True,
@@ -222,21 +220,22 @@ def create_app(test_config=None):
             body = request.get_json()
             category = body.get('quiz_category')
             previous_questions = body.get('previous_questions')
-            category_id = category['id']
-
-            if category_id == 0:   
+            cat_id = category['id']
+            
+            if cat_id == 0:   
                 current_questions = Question.query.filter(Question.id.notin_(previous_questions)).all()
             else:
                 current_questions = Question.query.filter(Question.id.notin_(previous_questions),
-                    Question.category == category_id).all()
-
-            generate_question = current_questions[random.randrange(
-                0, len(current_questions))].format() if len(current_questions) > 0 else None
-
+                                                          Question.category == cat_id).all()
+            
+            generate_question= None
+            if len(current_questions) > 0:
+                generate_question = random.choice(current_questions).format()
             return jsonify({
                 'success': True,
                 'question': generate_question
             })
+                            
         except:
             abort(422)
 
